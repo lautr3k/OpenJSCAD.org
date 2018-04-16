@@ -39,7 +39,7 @@ function replaceIncludes (source, basePath, relPath, {memFs, includeResolver}) {
       // we are the root level
       if (relPath === '') {
         const moduleSources = Object.keys(moduleCache).map(function (uri) {
-          return `globals['includesSource']['${uri}'] = function() {${moduleCache[uri]}}`
+          return `globals['includesSource']['${uri}'] = function() { return ${moduleCache[uri]} }`
         }).join('\n')
 
         resolvedScript = `globals['includedFiles'] || (globals['includedFiles'] = {})
@@ -48,8 +48,8 @@ if (!globals['originalIncludeFunction']) {
   globals['originalIncludeFunction'] = include
   include = function(file) {
     if (!globals['includedFiles'][file]) {
-      globals['includesSource'][file]()
       globals['includedFiles'][file] = true
+      return globals['includesSource'][file]()
     }
   }
 }
@@ -58,6 +58,7 @@ ${resolvedScript}
 `
       }
       resolve({source: resolvedScript, moduleCache})
+      console.log(resolvedScript);
     })
     .catch(reject)
   })
