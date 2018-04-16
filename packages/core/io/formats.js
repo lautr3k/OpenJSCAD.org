@@ -92,7 +92,12 @@ const conversionFormats = [
   'stl',
   'dxf',
 // 2D file formats
-  'svg'
+  'svg',
+// OpenType fonts
+  'ttf',
+  'otf',
+  'woff',
+  'woff2'
 ]
 
 function supportedFormatsForObjects (objects) {
