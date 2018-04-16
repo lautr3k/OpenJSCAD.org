@@ -1,5 +1,7 @@
 const { conversionFormats } = require('@jscad/core/io/formats')
 const {findMainFile, changedFiles} = require('./helpers')
+const fontFormats = ['ttf', 'otf', 'woff', 'woff2']
+const supportedFormats = conversionFormats.concat(fontFormats)
 
 function flatten (array) {
   return [].concat(...array)
@@ -36,7 +38,7 @@ const readFileAsync = function (file, fileMeta) {
 export function isSupportedFormat (file) {
   var e = file.name.toLowerCase().match(/\.(\w+)$/i)
   e = RegExp.$1
-  return conversionFormats.indexOf(e) >= 0
+  return supportedFormats.indexOf(e) >= 0
   // NOTE: was incrementing memFsTotal++ ONLY if format is valid, not needed anymore as far as I know
 }
 
