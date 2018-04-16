@@ -63,7 +63,7 @@ ${resolvedScript}
 `
       }
       resolve({source: resolvedScript, moduleCache})
-      console.log(resolvedScript);
+      // console.log(resolvedScript);
     })
     .catch(reject)
   })
