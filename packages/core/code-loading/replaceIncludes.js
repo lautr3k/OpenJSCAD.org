@@ -21,8 +21,13 @@ function replaceIncludes (source, basePath, relPath, {memFs, includeResolver}) {
 
     const modulePromises = foundIncludes.map(function (uri, index) {
       return includeResolver(basePath, uri, memFs)
-        .then(
-          includedScript => replaceIncludes(includedScript, basePath, `${relPath}/${uri}`, {memFs, includeResolver})
+        .then(includedScript => {
+            if (!uri.match(/\.ttf$/)) {
+              return replaceIncludes(includedScript, basePath, `${relPath}/${uri}`, {memFs, includeResolver})
+            }
+            let source = btoa(includedScript) // -> base64
+            return { moduleCache: {}, source: `return "${source}"` }
+          }
         )
         .then(data => {
           data.moduleCache[uri] = data.source
