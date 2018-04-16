@@ -39,7 +39,7 @@ function replaceIncludes (source, basePath, relPath, {memFs, includeResolver}) {
       // we are the root level
       if (relPath === '') {
         const moduleSources = Object.keys(moduleCache).map(function (uri) {
-          return `globals['includesSource']['${uri}'] = function() { return ${moduleCache[uri]} }`
+          return `globals['includesSource']['${uri}'] = function() { ${moduleCache[uri]} }`
         }).join('\n')
 
         resolvedScript = `globals['includedFiles'] || (globals['includedFiles'] = {})
