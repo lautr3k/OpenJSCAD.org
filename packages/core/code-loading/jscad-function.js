@@ -1,3 +1,5 @@
+const font = require('../font-loading/font-function')
+
 /**
  * Create an function for processing the JSCAD script into CSG/CAG objects
  * @param {String} script the script
@@ -26,6 +28,12 @@ function createJscadFunction (script, globals) {
     })
   })
 
+  // Inject font() function
+  globals.core = globals.core || {}
+  globals.core.font = font
+  globalsList += `const font = globals['core']['font']
+`
+
   const source = `// SYNC WORKER
     ${globalsList}
 
@@ -38,7 +46,7 @@ function createJscadFunction (script, globals) {
 
     return main(params)
   `
-
+  //console.log(source);
   var f = new Function('params', 'include', 'globals', source)
   return f
 }
